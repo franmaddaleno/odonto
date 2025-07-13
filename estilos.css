@@ -1,13 +1,13 @@
-/* ========== PALETA ROSADA ========== */
 :root {
-  --pink-light:   #fde4f3; /* fondo suave */
-  --pink-mid:     #ec89c9; /* contorno y hover */
-  --pink-dark:    #b71375; /* texto principal */
-  --pink-shadow:  #f5b6df; /* sombreado botones */
-  --white:        #ffffff;
+  --pink-bg: #fce4ec;
+  --pink-light: #f8bbd0;
+  --pink-mid: #f06292;
+  --pink-dark: #ad1457;
+  --purple: #ab47bc;
+  --white: #fff;
+  --text-dark: #880e4f;
 }
 
-/* ========== RESETEO BÁSICO ========== */
 * {
   margin: 0;
   padding: 0;
@@ -15,99 +15,102 @@
   font-family: "Segoe UI", sans-serif;
 }
 
-/* ========== CUERPO ========== */
 body {
-  background: var(--pink-light);
-  color: var(--pink-dark);
-  padding: 2rem 1rem 4rem;
-  max-width: 1200px;
+  background-color: var(--pink-bg);
+  color: var(--text-dark);
+  padding: 2rem 1rem;
+  max-width: 1400px;
   margin: auto;
 }
 
-/* ========== ENCABEZADOS GENERALES ========== */
 h1 {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   color: var(--pink-dark);
 }
 
-h2 {                     /* Años */
-  margin: 2rem 0 1rem;
+/* ====== AÑOS ====== */
+.year {
+  margin-bottom: 3rem;
+}
+
+.year h2 {
   font-size: 1.4rem;
-  border-left: 6px solid var(--pink-dark);
+  margin-bottom: 1rem;
+  border-left: 6px solid var(--pink-mid);
   padding-left: .5rem;
 }
 
-h3 {                     /* Semestres */
-  font-size: 1.1rem;
-  color: var(--pink-dark);
-  margin-bottom: .6rem;
-  background: var(--pink-mid);
-  color: var(--white);
-  display: inline-block;
-  padding: .2rem .7rem;
-  border-radius: .4rem;
-}
-
-/* ========== TARJETA DE SEMESTRE ========== */
+/* ====== SEMESTRES EN COLUMNA ====== */
 .semester {
-  background: var(--white);
-  border: 2px solid var(--pink-mid);
-  border-radius: .8rem;
+  display: inline-block;
+  vertical-align: top;
+  background-color: var(--white);
+  border: 2px solid var(--pink-light);
+  border-radius: 12px;
+  margin: 1rem;
   padding: 1rem;
-  margin-bottom: 1.2rem;
-  box-shadow: 0 3px 6px rgba(0,0,0,.05);
+  width: 270px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* ========== GRID DE RAMOS ========== */
+.semester h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--white);
+  background-color: var(--pink-mid);
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* ====== CURSOS / BOTONES ====== */
 .grid {
-  display: grid;
-  gap: .75rem;
-  /* Siempre 3 columnas en escritorios grandes, 2 en tablets, 1 en móviles */
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* ========== BOTONES / RAMOS ========== */
 .course {
-  position: relative;
-  padding: 1rem .8rem;
-  background: var(--white);
+  padding: 0.7rem;
+  background-color: var(--pink-light);
   border: 2px solid var(--pink-mid);
-  border-radius: .6rem;
-  font-size: .9rem;
-  text-align: left;
-  color: var(--pink-dark);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--text-dark);
   cursor: pointer;
-  transition: background .15s, color .15s, box-shadow .15s, opacity .15s;
+  transition: all 0.2s ease-in-out;
 }
 
-.course:not(:disabled):hover {
-  box-shadow: 0 0 0 4px var(--pink-shadow);
+.course:hover:not(:disabled) {
+  background-color: var(--pink-mid);
+  color: var(--white);
 }
 
-/* ---------- Estado bloqueado ---------- */
-.course:disabled {
-  border-style: dashed;
-  background: var(--pink-light);
-  color: var(--pink-dark);
-  cursor: default;
-  opacity: .55;
-}
-
-/* ---------- Estado aprobado ---------- */
+/* ====== APROBADO ====== */
 .course.approved {
-  background: var(--pink-mid);
+  background-color: var(--purple);
   color: var(--white);
   text-decoration: line-through;
-  opacity: .9;
+  opacity: 0.9;
 }
 
-/* ========== PEQUEÑAS MEJORAS RESPONSIVE ========== */
-@media (max-width: 600px) {
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.25rem; }
-  .grid { grid-template-columns: 1fr; }
+/* ====== BLOQUEADO ====== */
+.course:disabled {
+  border-style: dashed;
+  background-color: #fce4ec;
+  color: #ad1457;
+  opacity: 0.5;
+  cursor: default;
 }
 
-/* Fin del archivo */
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .semester {
+    display: block;
+    width: 100%;
+    margin: 1rem auto;
+  }
+}
