@@ -1,14 +1,158 @@
-index.html
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Malla Odontología UChile</title>
-  <link rel="stylesheet" href="estilos.css" />
+  <title>Malla Odontología – Interactiva</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Malla Interactiva Odontología - Universidad de Chile</h1>
-  <div id="malla" class="malla"></div>
+  <h1>Malla Odontología</h1>
+
+  <!-- ===== PRIMER AÑO ===== -->
+  <section class="year">
+    <h2>Primer año</h2>
+
+    <div class="semester">
+      <h3>Semestre 1</h3>
+      <div class="grid">
+        <button class="course" data-code="DDAP-I">DESARROLLO DE DESTREZAS Y AUTOCUIDADO I</button>
+        <button class="course" data-code="PFIC-I">PROCESOS FÍSICOS I</button>
+        <button class="course" data-code="PQIC-I">PROCESOS QUÍMICOS I</button>
+        <button class="course" data-code="BCG">BIOLOGÍA CELULAR Y GENÉTICA</button>
+        <button class="course" data-code="HIST-G">HISTOLOGÍA GENERAL</button>
+        <button class="course" data-code="BASES-ANAT">BASES ANATÓMICAS</button>
+      </div>
+    </div>
+
+    <div class="semester">
+      <h3>Semestre 2</h3>
+      <div class="grid">
+        <button class="course" data-code="DDAP-II" data-req="DDAP-I">DESTREZAS Y AUTOCUIDADO II</button>
+        <button class="course" data-code="PFIC-II" data-req="PFIC-I">PROCESOS FÍSICOS II</button>
+        <button class="course" data-code="PQIC-II" data-req="PQIC-I">PROCESOS QUÍMICOS II</button>
+        <button class="course" data-code="HIST-O" data-req="HIST-G,BCG,BASES-ANAT">HISTOLOGÍA ORAL</button>
+        <button class="course" data-code="ANAT-CYC" data-req="BASES-ANAT,BCG">ANATOMÍA CARA Y CUELLO</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEGUNDO AÑO ===== -->
+  <section class="year">
+    <h2>Segundo año</h2>
+
+    <div class="semester">
+      <h3>Semestre 3</h3>
+      <div class="grid">
+        <button class="course" data-code="SIM-I" data-req="DDAP-II,PQIC-II">SIMULACIONES I</button>
+        <button class="course" data-code="PAT-MICRO" data-req="HIST-O,PFIC-II,ANAT-CYC">PAT. Y MICROBIOLOGÍA</button>
+        <button class="course" data-code="BIOQ-FISIO-I" data-req="HIST-O,PFIC-II,ANAT-CYC">BIOQ. Y FISIO I</button>
+        <button class="course" data-code="PES-I" data-req="DDAP-II">PROM. Y EDU. SALUD I</button>
+        <button class="course" data-code="PSICOSOC-I" data-req="DDAP-II">PSICOSOC. Y ANTROP. SALUD I</button>
+      </div>
+    </div>
+
+    <div class="semester">
+      <h3>Semestre 4</h3>
+      <div class="grid">
+        <button class="course" data-code="SIM-II" data-req="SIM-I">SIMULACIONES II</button>
+        <button class="course" data-code="SEMIO" data-req="BIOQ-FISIO-I,PAT-MICRO">BASES SEMIOLÓGICAS</button>
+        <button class="course" data-code="BIOQ-FISIO-II" data-req="PAT-MICRO,BIOQ-FISIO-I">BIOQ. Y FISIO II</button>
+        <button class="course" data-code="PES-II" data-req="PSICOSOC-I,PES-I">PROM. Y EDU. SALUD II</button>
+        <button class="course" data-code="PSICOSOC-II" data-req="PSICOSOC-I">PSICOSOC. Y ANTROP. SALUD II</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TERCER AÑO ===== -->
+  <section class="year">
+    <h2>Tercer año</h2>
+
+    <div class="semester">
+      <h3>Semestre 5</h3>
+      <div class="grid">
+        <button class="course" data-code="CLIN-NIÑO-I" data-req="SIM-II,SEMIO">CLÍNICA NIÑO I</button>
+        <button class="course" data-code="CLIN-ADULTO-I" data-req="SEMIO,SIM-II">CLÍNICA ADULTO I</button>
+        <button class="course" data-code="CLIN-MAYOR-I" data-req="SEMIO,SIM-II">CLÍNICA MAYOR I</button>
+        <button class="course" data-code="FUND-ENF-I" data-req="BIOQ-FISIO-II">FUND. ENFERMEDAD I</button>
+        <button class="course" data-code="GESTION" data-req="PES-I,PES-II">GESTIÓN Y ADM.</button>
+        <button class="course" data-code="INTERV-FAM-I" data-req="PSICOSOC-II,PES-II">INTERV. FAMILIAR I</button>
+      </div>
+    </div>
+
+    <div class="semester">
+      <h3>Semestre 6</h3>
+      <div class="grid">
+        <button class="course" data-code="CLIN-NIÑO-II" data-req="CLIN-NIÑO-I">CLÍNICA NIÑO II</button>
+        <button class="course" data-code="FUND-ENF-II" data-req="FUND-ENF-I">FUND. ENFERMEDAD II</button>
+        <button class="course" data-code="CLIN-ADULTO-II">CLÍNICA ADULTO II</button>
+        <button class="course" data-code="CLIN-MAYOR-II">CLÍNICA MAYOR II</button>
+        <button class="course" data-code="FARMACO" data-req="FUND-ENF-I">FARMACOLOGÍA</button>
+        <button class="course" data-code="INTERV-FAM-II">INTERV. FAMILIAR II</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CUARTO AÑO ===== -->
+  <section class="year">
+    <h2>Cuarto año</h2>
+
+    <div class="semester">
+      <h3>Semestre 7</h3>
+      <div class="grid">
+        <button class="course" data-code="CLIN-NIÑO-III" data-req="CLIN-NIÑO-II">CLÍNICA NIÑO III</button>
+        <button class="course" data-code="CLIN-ADULTO-III" data-req="CLIN-ADULTO-II,CLIN-MAYOR-II,FUND-ENF-II">CLÍNICA ADULTO III</button>
+        <button class="course" data-code="CLIN-MAYOR-III" data-req="CLIN-ADULTO-II,CLIN-MAYOR-II,FUND-ENF-II">CLÍNICA MAYOR III</button>
+        <button class="course" data-code="URG-I" data-req="CLIN-NIÑO-II,CLIN-ADULTO-II,CLIN-MAYOR-II,FARMACO">URGENCIAS I</button>
+        <button class="course" data-code="MANT-SALUD-I" data-req="INTERV-FAM-II">MANT. SALUD I</button>
+        <button class="course" data-code="PROY-I">PROY. INVESTIGACIÓN I</button>
+      </div>
+    </div>
+
+    <div class="semester">
+      <h3>Semestre 8</h3>
+      <div class="grid">
+        <button class="course" data-code="CLIN-NIÑO-III2" data-req="CLIN-NIÑO-III">CLÍNICA NIÑO III-2</button>
+        <button class="course" data-code="CLIN-ADULTO-III2" data-req="CLIN-ADULTO-III">CLÍNICA ADULTO III-2</button>
+        <button class="course" data-code="CLIN-MAYOR-III2" data-req="CLIN-MAYOR-III">CLÍNICA MAYOR III-2</button>
+        <button class="course" data-code="URG-II" data-req="URG-I">URGENCIAS II</button>
+        <button class="course" data-code="MANT-SALUD-II" data-req="MANT-SALUD-I">MANT. SALUD II</button>
+        <button class="course" data-code="PROY-II" data-req="PROY-I">PROY. INVESTIGACIÓN II</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUINTO AÑO ===== -->
+  <section class="year">
+    <h2>Quinto año</h2>
+
+    <div class="semester">
+      <h3>Semestre 9</h3>
+      <div class="grid">
+        <button class="course" data-code="CLIN-NIÑO-IV" data-req="CLIN-NIÑO-III2">CLÍNICA NIÑO IV</button>
+        <button class="course" data-code="CLIN-ADULTO-IV" data-req="CLIN-ADULTO-III2,CLIN-MAYOR-III2">CLÍNICA ADULTO IV</button>
+        <button class="course" data-code="CLIN-MAYOR-IV" data-req="CLIN-ADULTO-III2,CLIN-MAYOR-III2">CLÍNICA MAYOR IV</button>
+        <button class="course" data-code="CLIN-ESP-I" data-req="CLIN-NIÑO-III2,CLIN-MAYOR-III2,URG-II">CLÍNICA PAC. ESP. I</button>
+        <button class="course" data-code="URG-MULTI" data-req="URG-II,CLIN-ADULTO-III2">URGENCIAS MULTI</button>
+        <button class="course" data-code="MANT-SALUD-III" data-req="MANT-SALUD-II,CLIN-ADULTO-III2">MANT. SALUD III</button>
+        <button class="course" data-code="PROY-III" data-req="PROY-II">PROY. INVESTIGACIÓN III</button>
+      </div>
+    </div>
+
+    <div class="semester">
+      <h3>Semestre 10</h3>
+      <div class="grid">
+        <button class="course" data-code="CLIN-NIÑO-IV2" data-req="CLIN-NIÑO-IV">CLÍNICA NIÑO IV-2</button>
+        <button class="course" data-code="CLIN-ADULTO-IV2" data-req="CLIN-ADULTO-IV">CLÍNICA ADULTO IV-2</button>
+        <button class="course" data-code="CLIN-MAYOR-IV2" data-req="CLIN-MAYOR-IV">CLÍNICA MAYOR IV-2</button>
+        <button class="course" data-code="CLIN-ESP-II" data-req="CLIN-ESP-I">CLÍNICA PAC. ESP. II</button>
+        <button class="course" data-code="URG-MED" data-req="URG-II">URGENCIAS MÉDICAS</button>
+        <button class="course" data-code="MANT-SALUD-IV" data-req="MANT-SALUD-III">MANT. SALUD IV</button>
+        <button class="course" data-code="PROY-IV" data-req="PROY-III">PROY. INVESTIGACIÓN IV</button>
+      </div>
+    </div>
+  </section>
+
   <script src="script.js"></script>
 </body>
 </html>
