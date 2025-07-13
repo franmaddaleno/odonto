@@ -1,43 +1,60 @@
+/* COLOR PALETTE */
+:root {
+  --pink-dark: #b71375;
+  --pink-light: #f8c6e5;
+  --pink-mid:  #e357a3;
+  --white: #fff;
+  --gray:  #ddd;
+}
+
+/* BASE */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: Arial, sans-serif;
-  background-color: #ffe6f0;
-  margin: 0;
-  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--pink-light);
+  color: var(--pink-dark);
+  padding: 2rem;
 }
 
-h1 {
-  text-align: center;
-  color: #c2185b;
-}
+/* HEADINGS */
+h1 { text-align: center; margin-bottom: 2rem; }
+h2 { margin: 1.5rem 0 1rem; border-bottom: 2px solid var(--pink-mid); }
+h3 { margin: 1rem 0 0.5rem; color: var(--pink-mid); }
 
-.malla {
+/* GRID DE LOS RAMOS */
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: .75rem;
 }
 
-.ramo {
-  background-color: #f8bbd0;
-  padding: 15px;
-  border-radius: 10px;
-  border: 2px solid #c2185b;
+/* BOTONES DE LOS RAMOS */
+.course {
+  padding: 1rem .8rem;
+  border: 2px solid var(--pink-mid);
+  border-radius: .5rem;
+  background: var(--white);
+  color: var(--pink-dark);
   cursor: pointer;
-  transition: 0.2s;
+  transition: background .2s, color .2s, opacity .2s;
+  text-align: left;
+  font-size: .9rem;
 }
 
-.ramo:hover {
-  background-color: #f48fb1;
+.course:disabled {
+  border-style: dashed;
+  background: var(--gray);
+  cursor: default;
+  opacity: .6;
 }
 
-.ramo.aprobado {
-  background-color: #c2185b;
-  color: white;
+/* Estado aprobado */
+.course.approved {
+  background: var(--pink-mid);
+  color: var(--white);
   text-decoration: line-through;
+  opacity: .8;
 }
 
-.ramo.bloqueado {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
+/* Sombras al pasar el mouse */
+.course:not(:disabled):hover { box-shadow: 0 0 0 3px var(--pink-mid); }
