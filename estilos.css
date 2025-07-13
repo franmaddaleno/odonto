@@ -1,60 +1,113 @@
-/* COLOR PALETTE */
+/* ========== PALETA ROSADA ========== */
 :root {
-  --pink-dark: #b71375;
-  --pink-light: #f8c6e5;
-  --pink-mid:  #e357a3;
-  --white: #fff;
-  --gray:  #ddd;
+  --pink-light:   #fde4f3; /* fondo suave */
+  --pink-mid:     #ec89c9; /* contorno y hover */
+  --pink-dark:    #b71375; /* texto principal */
+  --pink-shadow:  #f5b6df; /* sombreado botones */
+  --white:        #ffffff;
 }
 
-/* BASE */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
+/* ========== RESETEO BÁSICO ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: "Segoe UI", sans-serif;
+}
+
+/* ========== CUERPO ========== */
+body {
   background: var(--pink-light);
   color: var(--pink-dark);
-  padding: 2rem;
+  padding: 2rem 1rem 4rem;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* HEADINGS */
-h1 { text-align: center; margin-bottom: 2rem; }
-h2 { margin: 1.5rem 0 1rem; border-bottom: 2px solid var(--pink-mid); }
-h3 { margin: 1rem 0 0.5rem; color: var(--pink-mid); }
+/* ========== ENCABEZADOS GENERALES ========== */
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.9rem;
+  color: var(--pink-dark);
+}
 
-/* GRID DE LOS RAMOS */
+h2 {                     /* Años */
+  margin: 2rem 0 1rem;
+  font-size: 1.4rem;
+  border-left: 6px solid var(--pink-dark);
+  padding-left: .5rem;
+}
+
+h3 {                     /* Semestres */
+  font-size: 1.1rem;
+  color: var(--pink-dark);
+  margin-bottom: .6rem;
+  background: var(--pink-mid);
+  color: var(--white);
+  display: inline-block;
+  padding: .2rem .7rem;
+  border-radius: .4rem;
+}
+
+/* ========== TARJETA DE SEMESTRE ========== */
+.semester {
+  background: var(--white);
+  border: 2px solid var(--pink-mid);
+  border-radius: .8rem;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,.05);
+}
+
+/* ========== GRID DE RAMOS ========== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: .75rem;
+  /* Siempre 3 columnas en escritorios grandes, 2 en tablets, 1 en móviles */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
-/* BOTONES DE LOS RAMOS */
+/* ========== BOTONES / RAMOS ========== */
 .course {
+  position: relative;
   padding: 1rem .8rem;
-  border: 2px solid var(--pink-mid);
-  border-radius: .5rem;
   background: var(--white);
+  border: 2px solid var(--pink-mid);
+  border-radius: .6rem;
+  font-size: .9rem;
+  text-align: left;
   color: var(--pink-dark);
   cursor: pointer;
-  transition: background .2s, color .2s, opacity .2s;
-  text-align: left;
-  font-size: .9rem;
+  transition: background .15s, color .15s, box-shadow .15s, opacity .15s;
 }
 
+.course:not(:disabled):hover {
+  box-shadow: 0 0 0 4px var(--pink-shadow);
+}
+
+/* ---------- Estado bloqueado ---------- */
 .course:disabled {
   border-style: dashed;
-  background: var(--gray);
+  background: var(--pink-light);
+  color: var(--pink-dark);
   cursor: default;
-  opacity: .6;
+  opacity: .55;
 }
 
-/* Estado aprobado */
+/* ---------- Estado aprobado ---------- */
 .course.approved {
   background: var(--pink-mid);
   color: var(--white);
   text-decoration: line-through;
-  opacity: .8;
+  opacity: .9;
 }
 
-/* Sombras al pasar el mouse */
-.course:not(:disabled):hover { box-shadow: 0 0 0 3px var(--pink-mid); }
+/* ========== PEQUEÑAS MEJORAS RESPONSIVE ========== */
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Fin del archivo */
