@@ -1,36 +1,52 @@
-// Guarda botones y crea diccionario curso → requisitos
-const courses = [...document.querySelectorAll(".course")];
-const reqMap = {};
-courses.forEach(btn => {
-  const code = btn.dataset.code;
-  const reqs = btn.dataset.req ? btn.dataset.req.split(",") : [];
-  reqMap[code] = reqs;
-  // Deshabilita inicialmente si tiene requisitos
-  if (reqs.length) btn.disabled = true;
+const ramos = {};
+
+// Inicializa los ramos: si no tienen requisitos están desbloqueados, si tienen requisitos bloqueados
+document.querySelectorAll('.ramo').forEach(div => {
+  const id = div.dataset.id;
+  const requisitos = div.dataset.requisitos ? div.dataset.requisitos.split(',').filter(x => x) : [];
+  ramos[id] = {
+    element: div,
+    requisitos: requisitos,
+    abre: div.dataset.abre ? div.dataset.abre.split(',').filter(x => x) : [],
+    estado: requisitos.length === 0 ? 'unlocked' : 'locked',
+  };
+
+  if (ramos[id].estado === 'unlocked') {
+    div.classList.remove('locked');
+  } else {
+    div.classList.add('locked');
+  }
 });
 
-// Maneja clic: aprobar ramo y revisar desbloqueos
-courses.forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (btn.disabled) return;                  // Seguridad
-    btn.classList.toggle("approved");          // Marca / desmarca
-    checkUnlocks();                            // Recalcula elegibilidad
-  });
-});
+function puedeAprobar(ramoId) {
+  return ramos[ramoId].estado === 'unlocked';
+}
 
-// Función que revisa cada ramo bloqueado: ¿sus requisitos están aprobados?
-function checkUnlocks() {
-  courses.forEach(btn => {
-    const code = btn.dataset.code;
-    const reqs = reqMap[code];
-    if (!reqs.length) return;                  // Sin requisitos
-    const allMet = reqs.every(r => {
-      const reqBtn = courses.find(b => b.dataset.code === r);
-      return reqBtn && reqBtn.classList.contains("approved");
-    });
-    btn.disabled = !allMet;
+function aprobarRamo(ramoId) {
+  if (!puedeAprobar(ramoId)) return;
+
+  // Marcar aprobado
+  ramos[ramoId].estado = 'aprobado';
+  const el = ramos[ramoId].element;
+  el.classList.add('aprobado');
+  el.classList.remove('locked');
+  el.style.cursor = 'default';
+
+  // Desbloquear los que dependen de este ramo
+  ramos[ramoId].abre.forEach(depId => {
+    if (!ramos[depId]) return;
+    const requisitos = ramos[depId].requisitos;
+    const todosAprobados = requisitos.every(reqId => ramos[reqId]?.estado === 'aprobado');
+    if (todosAprobados && ramos[depId].estado !== 'aprobado') {
+      ramos[depId].estado = 'unlocked';
+      ramos[depId].element.classList.remove('locked');
+      ramos[depId].element.style.cursor = 'pointer';
+    }
   });
 }
 
-// Al cargar, asegúrate de actualizar (por si hay prerequisitos sin aprobar)
-checkUnlocks();
+Object.values(ramos).forEach(ramo => {
+  ramo.element.addEventListener('click', () => {
+    aprobarRamo(ramo.element.dataset.id);
+  });
+});
