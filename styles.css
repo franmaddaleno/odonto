@@ -1,0 +1,101 @@
+/* ========= PALETA ========= */
+:root {
+  --pink-bg:   #fff0f5;   /* fondo general suave */
+  --pink-col1: #f8bbd0;   /* botón normal */
+  --pink-col2: #f48fb1;   /* degradado hover */
+  --pink-col3: #ec9fb9;   /* degradado hover 2 */
+  --pink-dark:#c2185b;    /* bordes y títulos */
+  --violet1:  #d1bee7;    /* aprobado */
+  --violet2:  #b695d3;
+  --text-dark:#4a148c;
+  --disabled:#f3f3f3;
+}
+
+/* ========= BASE ========= */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif;}
+
+body{
+  background-color:var(--pink-bg);
+  padding:20px;
+  color:var(--text-dark);
+}
+
+h1{
+  font-family:"Poppins",sans-serif;
+  font-weight:700;
+  color:#1c2185;
+  text-align:center;
+  margin-bottom:40px;
+}
+
+/* ===== CONTENEDOR HORIZONTAL ===== */
+.malla-grid{
+  display:flex;
+  overflow-x:auto;
+  gap:16px;
+  padding:16px;
+}
+
+/* ===== TARJETA DE SEMESTRE ===== */
+.semestre{
+  min-width:220px;
+  background-color:#ffeded;
+  border:2px solid var(--pink-col2);
+  border-radius:12px;
+  padding:15px;
+  box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.semestre h2{
+  text-align:center;
+  color:var(--pink-dark);
+  font-size:1.1rem;
+  margin-bottom:12px;
+  border-bottom:1px solid var(--pink-col1);
+  padding-bottom:6px;
+}
+
+/* ===== BOTONES DE RAMO ===== */
+.ramo{
+  background:linear-gradient(145deg,var(--pink-col1),var(--pink-col3));
+  border:1px solid var(--pink-dark);
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:10px;
+  text-align:center;
+  cursor:pointer;
+  color:#880e4f;
+  font-weight:600;
+  user-select:none;
+  transition:all .3s ease;
+  box-shadow:4px 4px 8px #c28a82,-4px -4px 8px #ffceef;
+}
+
+.ramo:hover:not(:disabled){
+  background:linear-gradient(145deg,var(--pink-col2),#f0479d);
+  box-shadow:6px 6px 10px #806788,-6px -6px 18px #ffbed4;
+  transform:translateY(-3px);
+}
+
+.ramo:active:not(:disabled){
+  box-shadow:inset 3px 3px 5px #806788,
+             inset -3px -3px 5px #ffbed4;
+  transform:translateY(1px);
+}
+
+/* ===== BLOQUEADO ===== */
+.ramo:disabled{
+  background-color:var(--disabled);
+  color:#999;
+  border-style:dashed;
+  cursor:not-allowed;
+}
+
+/* ===== APROBADO ===== */
+.ramo.approved{
+  background:linear-gradient(145deg,var(--violet1),var(--violet2))!important;
+  color:var(--text-dark);
+  border-color:#6a1b9a;
+  text-decoration:line-through;
+  font-style:italic;
+}
