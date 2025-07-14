@@ -1,5 +1,4 @@
-const ramos = [
-  const ramos = [
+const ramos = 
   { nombre: "DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL I", semestre: 1, requisitos: [] },
   { nombre: "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS I", semestre: 1, requisitos: [] },
   { nombre: "PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS I", semestre: 1, requisitos: [] },
