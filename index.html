@@ -1,127 +1,200 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Malla Interactiva Odontología – UChile</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Interactiva Odontología</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #fff0f5;
+    margin: 0; padding: 20px;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    color: #d63384;
+    margin-bottom: 30px;
+  }
+  .malla {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .semestre {
+    background: #ffe0ec;
+    border: 2px solid #f78fb3;
+    border-radius: 8px;
+    padding: 15px 20px;
+  }
+  .semestre h2 {
+    margin: 0 0 12px;
+    color: #c2185b;
+  }
+  .ramo {
+    background: white;
+    border-left: 6px solid #f06292;
+    border: 1px solid #f48fb1;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+  }
+  .ramo.locked {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .ramo.aprobado {
+    background-color: #fce4ec;
+    border-left-color: #ad1457;
+    color: #9c254d;
+    text-decoration: line-through;
+    cursor: default;
+  }
+  .ramo:hover:not(.locked):not(.aprobado) {
+    background-color: #ffe4ef;
+  }
+  /* Tooltip para mostrar a quién abre */
+  .ramo[data-abre]:hover::after {
+    content: attr(data-abre);
+    position: absolute;
+    background: #f78fb3;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: pre-line;
+    top: 100%;
+    left: 10px;
+    width: max-content;
+    max-width: 400px;
+    z-index: 10;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    font-size: 0.85rem;
+  }
+</style>
 </head>
 <body>
+<h1>Malla Interactiva Odontología</h1>
+<div class="malla" id="malla"></div>
 
-  <h1>Malla Interactiva Odontología – Universidad de Chile</h1>
+<script>
+  // Datos completos de la malla: ramos y requisitos (requisitos es un array con nombres de ramos)
+  const ramosData = [
+    // Primer año - Semestre 1
+    { nombre: "DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL I", requisitos: [] },
+    { nombre: "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS I", requisitos: [] },
+    { nombre: "PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS I", requisitos: [] },
+    { nombre: "BIOLOGÍA CELULAR Y GENÉTICA", requisitos: [] },
+    { nombre: "HISTOLOGÍA GENERAL", requisitos: [] },
+    { nombre: "BASES ANATÓMICAS", requisitos: [] },
 
-  <!-- ================= PRIMER AÑO ================= -->
-  <div class="malla-grid">
+    // Primer año - Semestre 2
+    { nombre: "DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL II", requisitos: ["DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL I"] },
+    { nombre: "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS II", requisitos: ["PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS I"] },
+    { nombre: "PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS II", requisitos: ["PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS I"] },
+    { nombre: "HISTOLOGIA ORAL", requisitos: ["HISTOLOGÍA GENERAL", "BIOLOGÍA CELULAR Y GENÉTICA", "BASES ANATÓMICAS"] },
+    { nombre: "ANATOMÍA DE CARA Y CUELLO", requisitos: ["BASES ANATÓMICAS", "BIOLOGÍA CELULAR Y GENÉTICA"] },
 
-    <div class="semestre">
-      <h2>Primer año – 1° Semestre</h2>
-      <button class="ramo" data-code="DDAP-I">Desarrollo de Destrezas y Autocuidado I</button>
-      <button class="ramo" data-code="PFIC-I">Procesos Físicos I</button>
-      <button class="ramo" data-code="PQIC-I">Procesos Químicos I</button>
-      <button class="ramo" data-code="BCG">Biología Celular y Genética</button>
-      <button class="ramo" data-code="HIST-G">Histología General</button>
-      <button class="ramo" data-code="BASES-ANAT">Bases Anatómicas</button>
-    </div>
+    // Segundo año - Semestre 3
+    { nombre: "SIMULACIONES PARA EL EJERCICIO PROFESIONAL I", requisitos: ["DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL II", "PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS II"] },
+    { nombre: "BASES CIENTIFICAS DE PATOLOGÍA Y MICROBIOLOGÍA", requisitos: ["HISTOLOGIA ORAL", "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS II", "ANATOMÍA DE CARA Y CUELLO"] },
+    { nombre: "BASES BIOQUÍMICAS Y FISIOLÓGICAS I", requisitos: ["HISTOLOGIA ORAL", "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS II", "ANATOMÍA DE CARA Y CUELLO"] },
+    { nombre: "PROMOCIÓN Y EDUCACIÓN EN SALUD I", requisitos: ["DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL II"] },
+    { nombre: "BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD I", requisitos: ["DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL II"] },
 
-    <div class="semestre">
-      <h2>Primer año – 2° Semestre</h2>
-      <button class="ramo" data-code="DDAP-II" data-req="DDAP-I">Destrezas y Autocuidado II</button>
-      <button class="ramo" data-code="PFIC-II" data-req="PFIC-I">Procesos Físicos II</button>
-      <button class="ramo" data-code="PQIC-II" data-req="PQIC-I">Procesos Químicos II</button>
-      <button class="ramo" data-code="HIST-O" data-req="HIST-G,BCG,BASES-ANAT">Histología Oral</button>
-      <button class="ramo" data-code="ANAT-CYC" data-req="BASES-ANAT,BCG">Anatomía Cara y Cuello</button>
-    </div>
+    // Segundo año - Semestre 4
+    { nombre: "SIMULACIONES PARA EL EJERCICIO PROFESIONAL II", requisitos: ["SIMULACIONES PARA EL EJERCICIO PROFESIONAL I"] },
+    { nombre: "BASES SEMIOLÓGICAS", requisitos: ["BASES BIOQUÍMICAS Y FISIOLÓGICAS I", "BASES CIENTIFICAS DE PATOLOGÍA Y MICROBIOLOGÍA"] },
+    { nombre: "BASES BIOQUÍMICAS Y FISIOLÓGICAS II", requisitos: ["BASES CIENTIFICAS DE PATOLOGÍA Y MICROBIOLOGÍA", "BASES BIOQUÍMICAS Y FISIOLÓGICAS I"] },
+    { nombre: "PROMOCIÓN Y EDUCACIÓN EN SALUD II", requisitos: ["BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD I", "PROMOCIÓN Y EDUCACIÓN EN SALUD I"] },
+    { nombre: "BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD II", requisitos: ["BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD I"] },
 
-  </div>
+    // Tercer año - Semestre 5
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE I", requisitos: ["SIMULACIONES PARA EL EJERCICIO PROFESIONAL II", "BASES SEMIOLÓGICAS"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO I", requisitos: ["BASES SEMIOLÓGICAS", "SIMULACIONES PARA EL EJERCICIO PROFESIONAL II"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR I", requisitos: ["BASES SEMIOLÓGICAS", "SIMULACIONES PARA EL EJERCICIO PROFESIONAL II"] },
+    { nombre: "FUNDAMENTOS CIENTÍFICOS Y CLÍNICOS PARA EL CONTROL DE LA ENFERMEDAD I", requisitos: ["BASES BIOQUÍMICAS Y FISIOLÓGICAS II"] },
+    { nombre: "GESTIÓN Y ADMINISTRACIÓN PARA EL EJERCICIO PROFESIONAL", requisitos: ["PROMOCIÓN Y EDUCACIÓN EN SALUD I", "PROMOCIÓN Y EDUCACIÓN EN SALUD II"] },
+    { nombre: "INTERVENCIÓN FAMILIAR Y COMUNITARIA I", requisitos: ["BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD II", "PROMOCIÓN Y EDUCACIÓN EN SALUD II"] },
 
-  <!-- ================= SEGUNDO AÑO ================= -->
-  <div class="malla-grid">
-    <div class="semestre">
-      <h2>Segundo año – 3° Semestre</h2>
-      <button class="ramo" data-code="SIM-I" data-req="DDAP-II,PQIC-II">Simulaciones I</button>
-      <button class="ramo" data-code="PAT-MICRO" data-req="HIST-O,PFIC-II,ANAT-CYC">Patología y Microbiología</button>
-      <button class="ramo" data-code="BIOQ-FISIO-I" data-req="HIST-O,PFIC-II,ANAT-CYC">Bioquímica y Fisiología I</button>
-      <button class="ramo" data-code="PES-I" data-req="DDAP-II">Promoción y Educación en Salud I</button>
-      <button class="ramo" data-code="PSICOSOC-I" data-req="DDAP-II">Psicosocial y Antropología I</button>
-    </div>
-    <div class="semestre">
-      <h2>Segundo año – 4° Semestre</h2>
-      <button class="ramo" data-code="SIM-II" data-req="SIM-I">Simulaciones II</button>
-      <button class="ramo" data-code="SEMIO" data-req="BIOQ-FISIO-I,PAT-MICRO">Bases Semiológicas</button>
-      <button class="ramo" data-code="BIOQ-FISIO-II" data-req="PAT-MICRO,BIOQ-FISIO-I">Bioquímica y Fisiología II</button>
-      <button class="ramo" data-code="PES-II" data-req="PSICOSOC-I,PES-I">Promoción y Educación en Salud II</button>
-      <button class="ramo" data-code="PSICOSOC-II" data-req="PSICOSOC-I">Psicosocial y Antropología II</button>
-    </div>
-  </div>
+    // Tercer año - Semestre 6
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE II", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE I"] },
+    { nombre: "FUNDAMENTOS CIENTÍFICOS Y CLÍNICOS PARA EL CONTROL DE LA ENFERMEDAD II", requisitos: ["FUNDAMENTOS CIENTÍFICOS Y CLÍNICOS PARA EL CONTROL DE LA ENFERMEDAD I"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO II", requisitos: [] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR II", requisitos: [] },
+    { nombre: "FARMACOLOGÍA", requisitos: ["FUNDAMENTOS CIENTÍFICOS Y CLÍNICOS PARA EL CONTROL DE LA ENFERMEDAD I"] },
+    { nombre: "INTERVENCIÓN FAMILIAR Y COMUNITARIA II", requisitos: [] },
 
-  <!-- ================= TERCER AÑO ================= -->
-  <div class="malla-grid">
-    <div class="semestre">
-      <h2>Tercer año – 5° Semestre</h2>
-      <button class="ramo" data-code="CLIN-NIÑO-I" data-req="SIM-II,SEMIO">Clínica Niño I</button>
-      <button class="ramo" data-code="CLIN-ADULTO-I" data-req="SEMIO,SIM-II">Clínica Adulto I</button>
-      <button class="ramo" data-code="CLIN-MAYOR-I" data-req="SEMIO,SIM-II">Clínica Adulto Mayor I</button>
-      <button class="ramo" data-code="FUND-ENF-I" data-req="BIOQ-FISIO-II">Fund. Control de Enfermedad I</button>
-      <button class="ramo" data-code="GESTION" data-req="PES-I,PES-II">Gestión y Administración</button>
-      <button class="ramo" data-code="INTERV-FAM-I" data-req="PSICOSOC-II,PES-II">Intervención Familiar I</button>
-    </div>
-    <div class="semestre">
-      <h2>Tercer año – 6° Semestre</h2>
-      <button class="ramo" data-code="CLIN-NIÑO-II" data-req="CLIN-NIÑO-I">Clínica Niño II</button>
-      <button class="ramo" data-code="FUND-ENF-II" data-req="FUND-ENF-I">Fund. Control de Enfermedad II</button>
-      <button class="ramo" data-code="CLIN-ADULTO-II">Clínica Adulto II</button>
-      <button class="ramo" data-code="CLIN-MAYOR-II">Clínica Adulto Mayor II</button>
-      <button class="ramo" data-code="FARMACO" data-req="FUND-ENF-I">Farmacología</button>
-      <button class="ramo" data-code="INTERV-FAM-II">Intervención Familiar II</button>
-    </div>
-  </div>
+    // Cuarto año - Semestre 7
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE III", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE II"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO III", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO II", "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR II", "FUNDAMENTOS CIENTÍFICOS Y CLÍNICOS PARA EL CONTROL DE LA ENFERMEDAD II"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR III", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO II", "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR II", "FUNDAMENTOS CIENTÍFICOS Y CLÍNICOS PARA EL CONTROL DE LA ENFERMEDAD II"] },
+    { nombre: "URGENCIAS ODONTOLÓGICAS I", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE II", "CLÍNICA ODONTOLÓGICA DEL ADULTO II", "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR II", "FARMACOLOGÍA"] },
+    { nombre: "MANTENCIÓN DEL ESTADO DE SALUD I", requisitos: ["INTERVENCIÓN FAMILIAR Y COMUNITARIA II"] },
+    { nombre: "PROYECTO DE INVESTIGACIÓN I", requisitos: [] },
 
-  <!-- ================= CUARTO AÑO ================= -->
-  <div class="malla-grid">
-    <div class="semestre">
-      <h2>Cuarto año – 7° Semestre</h2>
-      <button class="ramo" data-code="CLIN-NIÑO-III" data-req="CLIN-NIÑO-II">Clínica Niño III</button>
-      <button class="ramo" data-code="CLIN-ADULTO-III" data-req="CLIN-ADULTO-II,CLIN-MAYOR-II,FUND-ENF-II">Clínica Adulto III</button>
-      <button class="ramo" data-code="CLIN-MAYOR-III" data-req="CLIN-ADULTO-II,CLIN-MAYOR-II,FUND-ENF-II">Clínica Adulto Mayor III</button>
-      <button class="ramo" data-code="URG-I" data-req="CLIN-NIÑO-II,CLIN-ADULTO-II,CLIN-MAYOR-II,FARMACO">Urgencias I</button>
-      <button class="ramo" data-code="MANT-SALUD-I" data-req="INTERV-FAM-II">Mantención Salud I</button>
-      <button class="ramo" data-code="PROY-I">Proyecto Investigación I</button>
-    </div>
-    <div class="semestre">
-      <h2>Cuarto año – 8° Semestre</h2>
-      <button class="ramo" data-code="CLIN-NIÑO-III2" data-req="CLIN-NIÑO-III">Clínica Niño III-2</button>
-      <button class="ramo" data-code="CLIN-ADULTO-III2" data-req="CLIN-ADULTO-III">Clínica Adulto III-2</button>
-      <button class="ramo" data-code="CLIN-MAYOR-III2" data-req="CLIN-MAYOR-III">Clínica Adulto Mayor III-2</button>
-      <button class="ramo" data-code="URG-II" data-req="URG-I">Urgencias II</button>
-      <button class="ramo" data-code="MANT-SALUD-II" data-req="MANT-SALUD-I">Mantención Salud II</button>
-      <button class="ramo" data-code="PROY-II" data-req="PROY-I">Proyecto Investigación II</button>
-    </div>
-  </div>
+    // Cuarto año - Semestre 8
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE III 2", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE III"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO III 2", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO III"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR III 2", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR III"] },
+    { nombre: "URGENCIAS ODONTOLÓGICAS II", requisitos: ["URGENCIAS ODONTOLÓGICAS I"] },
+    { nombre: "MANTENCIÓN DEL ESTADO DE SALUD II", requisitos: ["MANTENCIÓN DEL ESTADO DE SALUD I"] },
+    { nombre: "PROYECTO DE INVESTIGACIÓN II", requisitos: ["PROYECTO DE INVESTIGACIÓN I"] },
 
-  <!-- ================= QUINTO AÑO ================= -->
-  <div class="malla-grid">
-    <div class="semestre">
-      <h2>Quinto año – 9° Semestre</h2>
-      <button class="ramo" data-code="CLIN-NIÑO-IV" data-req="CLIN-NIÑO-III2">Clínica Niño IV</button>
-      <button class="ramo" data-code="CLIN-ADULTO-IV" data-req="CLIN-ADULTO-III2,CLIN-MAYOR-III2">Clínica Adulto IV</button>
-      <button class="ramo" data-code="CLIN-MAYOR-IV" data-req="CLIN-ADULTO-III2,CLIN-MAYOR-III2">Clínica Adulto Mayor IV</button>
-      <button class="ramo" data-code="CLIN-ESP-I" data-req="CLIN-NIÑO-III2,CLIN-MAYOR-III2,URG-II">Clínica Paciente Especial I</button>
-      <button class="ramo" data-code="URG-MULTI" data-req="URG-II,CLIN-ADULTO-III2">Urgencias Multidisciplinarias</button>
-      <button class="ramo" data-code="MANT-SALUD-III" data-req="MANT-SALUD-II,CLIN-ADULTO-III2">Mantención Salud III</button>
-      <button class="ramo" data-code="PROY-III" data-req="PROY-II">Proyecto Investigación III</button>
-    </div>
-    <div class="semestre">
-      <h2>Quinto año – 10° Semestre</h2>
-      <button class="ramo" data-code="CLIN-NIÑO-IV2" data-req="CLIN-NIÑO-IV">Clínica Niño IV-2</button>
-      <button class="ramo" data-code="CLIN-ADULTO-IV2" data-req="CLIN-ADULTO-IV">Clínica Adulto IV-2</button>
-      <button class="ramo" data-code="CLIN-MAYOR-IV2" data-req="CLIN-MAYOR-IV">Clínica Adulto Mayor IV-2</button>
-      <button class="ramo" data-code="CLIN-ESP-II" data-req="CLIN-ESP-I">Clínica Paciente Especial II</button>
-      <button class="ramo" data-code="URG-MED" data-req="URG-II">Urgencias Médicas</button>
-      <button class="ramo" data-code="MANT-SALUD-IV" data-req="MANT-SALUD-III">Mantención Salud IV</button>
-      <button class="ramo" data-code="PROY-IV" data-req="PROY-III">Proyecto Investigación IV</button>
-    </div>
-  </div>
+    // Quinto año - Semestre 9
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE IV", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE III 2"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO IV", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO III 2", "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR III 2"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR IV", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO III 2", "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR III 2"] },
+    { nombre: "CLÍNICA INTEGRAL DEL PACIENTE CON NECESIDADES ESPECIALES I", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE III 2", "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR III 2", "URGENCIAS ODONTOLÓGICAS II"] },
+    { nombre: "URGENCIAS ODONTOLÓGICAS MULTIDISCIPLINARIAS", requisitos: ["URGENCIAS ODONTOLÓGICAS II", "CLÍNICA ODONTOLÓGICA DEL ADULTO III 2"] },
+    { nombre: "MANTENCIÓN DEL ESTADO DE SALUD III", requisitos: ["MANTENCIÓN DEL ESTADO DE SALUD II", "CLÍNICA ODONTOLÓGICA DEL ADULTO III 2"] },
+    { nombre: "PROYECTO DE INVESTIGACIÓN III", requisitos: ["PROYECTO DE INVESTIGACIÓN II"] },
 
-  <script src="script.js"></script>
-</body>
-</html>
+    // Quinto año - Semestre 10
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE IV 2", requisitos: ["CLÍNICA ODONTOLÓGICA DEL NIÑO Y ADOLESCENTE IV"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO IV 2", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO IV"] },
+    { nombre: "CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR IV 2", requisitos: ["CLÍNICA ODONTOLÓGICA DEL ADULTO MAYOR IV"] },
+    { nombre: "CLÍNICA INTEGRAL DEL PACIENTE CON NECESIDADES ESPECIALES II", requisitos: ["CLÍNICA INTEGRAL DEL PACIENTE CON NECESIDADES ESPECIALES I"] },
+    { nombre: "URGENCIAS MÉDICAS", requisitos: ["URGENCIAS ODONTOLÓGICAS II"] },
+    { nombre: "MANTENCIÓN DEL ESTADO DE SALUD IV", requisitos: ["MANTENCIÓN DEL ESTADO DE SALUD III"] },
+    { nombre: "EJECUCIÓN PROYECTO DE INVESTIGACIÓN IV", requisitos: ["PROYECTO DE INVESTIGACIÓN III"] }
+  ];
+
+  // Para organizar visualmente por semestre:
+  const semestres = [
+    { nombre: "Primer año - Semestre 1", ramos: [
+      "DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL I",
+      "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS I",
+      "PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS I",
+      "BIOLOGÍA CELULAR Y GENÉTICA",
+      "HISTOLOGÍA GENERAL",
+      "BASES ANATÓMICAS",
+    ]},
+    { nombre: "Primer año - Semestre 2", ramos: [
+      "DESARROLLO DE DESTREZAS Y AUTOCUIDADO PARA EL EJERCICIO PROFESIONAL II",
+      "PROCESOS FÍSICOS PARA INTERVENCIONES CLÍNICAS II",
+      "PROCESOS QUÍMICOS PARA INTERVENCIONES CLÍNICAS II",
+      "HISTOLOGIA ORAL",
+      "ANATOMÍA DE CARA Y CUELLO",
+    ]},
+    { nombre: "Segundo año - Semestre 3", ramos: [
+      "SIMULACIONES PARA EL EJERCICIO PROFESIONAL I",
+      "BASES CIENTIFICAS DE PATOLOGÍA Y MICROBIOLOGÍA",
+      "BASES BIOQUÍMICAS Y FISIOLÓGICAS I",
+      "PROMOCIÓN Y EDUCACIÓN EN SALUD I",
+      "BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD I",
+    ]},
+    { nombre: "Segundo año - Semestre 4", ramos: [
+      "SIMULACIONES PARA EL EJERCICIO PROFESIONAL II",
+      "BASES SEMIOLÓGICAS",
+      "BASES BIOQUÍMICAS Y FISIOLÓGICAS II",
+      "PROMOCIÓN Y EDUCACIÓN EN SALUD II",
+      "BASES PSICOSOCIALES Y ANTROPOLÓGICAS DE LA SALUD II",
+    ]},
+    { nombre: "Tercer año - Semestre 5", ramos: [
+      "CLÍNICA ODONTOL
+      
