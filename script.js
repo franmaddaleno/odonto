@@ -12,7 +12,6 @@ const semestres = {
     { id: "fisica2", nombre: "Procesos físicos para intervenciones clínicas II", prereq: "fisica1" },
     { id: "quimica2", nombre: "Procesos químicos para intervenciones clínicas II", prereq: "quimica1" },
     { id: "histologia_oral", nombre: "Histología oral", prereq: "histologia" },
-    { id: "biogenetica", nombre: "Biología célular y genética", prereq: "biologia" },
     { id: "anatomia_cc", nombre: "Anatomía de cabeza y cuello", prereq: "anatomia" }
   ],
   "3° Semestre": [
